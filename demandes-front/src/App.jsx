@@ -7,6 +7,7 @@ export default function App() {
   const [objet, setObjet] = useState('');
   const [mesDemandes, setMesDemandes] = useState([]);
   const [toutes, setToutes] = useState([]);
+  const [profil, setProfil] = useState(null); // <--- Nouvel état pour le profil
   const [message, setMessage] = useState('');
 
   const roles = keycloak.tokenParsed?.realm_access?.roles || [];
@@ -16,6 +17,7 @@ export default function App() {
   async function charger() {
     try {
       setMesDemandes(await appelerApi('/api/demandes'));
+      setProfil(await appelerApi('/api/profil')); // <--- Récupération du profil depuis le backend
       if (isAdmin) {
         setToutes(await appelerApi('/api/admin/demandes'));
       }
@@ -68,6 +70,14 @@ export default function App() {
           Connecte :<strong> {username}</strong>
         </p>
         <p>Roles : {roles.join(', ')}</p>
+        
+        {/* Affichage des données du profil récupérées du backend */}
+        {profil && (
+          <p style={{ fontSize: '0.9em', color: '#555' }}>
+            Profil API — ID: {profil.id} | Username: {profil.username}
+          </p>
+        )}
+
         <button
           onClick={() =>
             keycloak.logout({

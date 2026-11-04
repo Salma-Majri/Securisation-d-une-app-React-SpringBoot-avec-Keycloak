@@ -110,4 +110,11 @@ public class DemandeController {
                 "Demande introuvable"
         );
     }
+    @GetMapping("/api/profil")
+    public Map<String, Object> getProfil(@AuthenticationPrincipal Jwt jwt) {
+        return Map.of(
+                "id", jwt.getSubject(),
+                "username", jwt.getClaimAsString("preferred_username")
+        );
+    }
 }
