@@ -1,0 +1,18 @@
+# Maven / Spring Boot
+target/
+.mvn/wrapper/maven-wrapper.jar
+.settings/
+.classpath
+.project
+.sts4-cache
+
+# IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Node / React / Vite
+/demandes-front/node_modules/
+/demandes-front/dist/
+/demandes-front/.vite/
