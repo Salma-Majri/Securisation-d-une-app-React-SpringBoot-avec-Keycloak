@@ -45,15 +45,15 @@ export default function App() {
     }
   }
 
-  async function valider(id) {
+  async function changerStatut(id, nouveauStatut) {
     try {
       await appelerApi(`/api/admin/demandes/${id}`, {
         method: 'PATCH',
         body: JSON.stringify({
-          statut: 'VALIDEE'
+          statut: nouveauStatut
         })
       });
-      setMessage('Demande validee.');
+      setMessage(`Demande ${nouveauStatut === 'VALIDEE' ? 'validee' : 'refusee'}.`);
       await charger();
     } catch (e) {
       setMessage('Erreur : ' + e.message);
@@ -110,8 +110,15 @@ export default function App() {
             {toutes.map((d) => (
               <li key={d.id}>
                 #{d.id} - {d.objet} ({d.statut})
-                {d.statut !== 'VALIDEE' && (
-                  <button onClick={() => valider(d.id)}>Valider</button>
+                {d.statut === 'EN_ATTENTE' && (
+                  <>
+                    <button onClick={() => changerStatut(d.id, 'VALIDEE')}>
+                      Valider
+                    </button>
+                    <button onClick={() => changerStatut(d.id, 'REFUSEE')}>
+                      Refuser
+                    </button>
+                  </>
                 )}
               </li>
             ))}
